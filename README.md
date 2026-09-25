@@ -1,7 +1,7 @@
 # Personal Task Manager
 
 Project Code: WST21-PM-2026-SF
-Student Name: Student Name
+Student Name: Limbaga Danilo G.
 Course & Year: BSIT 2nd Year
 Database Used: SQLite
 
