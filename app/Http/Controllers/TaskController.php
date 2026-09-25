@@ -9,13 +9,35 @@ use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Schema::hasTable('tasks')
-            ? Task::orderBy('due_date')->orderBy('id')->get()
-            : collect();
+        $query = Schema::hasTable('tasks') ? Task::query() : null;
 
-        return view('tasks.index', compact('tasks'));
+        if ($query) {
+            if ($request->filled('search')) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('task_name', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            }
+
+            if ($request->filled('status_filter') && in_array($request->status_filter, ['Pending', 'Completed'], true)) {
+                $query->where('status', $request->status_filter);
+            }
+
+            $tasks = $query->orderBy('due_date')->orderBy('id')->get();
+        } else {
+            $tasks = collect();
+        }
+
+        $stats = [
+            'total' => Schema::hasTable('tasks') ? Task::count() : 0,
+            'pending' => Schema::hasTable('tasks') ? Task::where('status', 'Pending')->count() : 0,
+            'completed' => Schema::hasTable('tasks') ? Task::where('status', 'Completed')->count() : 0,
+        ];
+
+        return view('tasks.index', compact('tasks', 'stats'));
     }
 
     public function create()
