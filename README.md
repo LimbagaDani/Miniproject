@@ -40,3 +40,6 @@ This Laravel project is a simple personal task manager that allows users to crea
 
 ## Notes
 This project includes task creation, status toggling, due dates, and task listing in a simple dashboard-style interface.
+
+
+<img width="1370" height="843" alt="image" src="https://github.com/user-attachments/assets/07a69fd4-13a0-4c2c-a400-b1aa3de88075" />
