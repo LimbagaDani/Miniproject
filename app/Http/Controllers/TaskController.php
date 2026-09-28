@@ -59,6 +59,11 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task added successfully.');
     }
 
+    public function show(Task $task)
+    {
+        return view('tasks.show', compact('task'));
+    }
+
     public function edit(Task $task)
     {
         return view('tasks.edit', compact('task'));

@@ -47,6 +47,22 @@ class TaskManagerTest extends TestCase
         ]);
     }
 
+    public function test_user_can_view_a_single_task(): void
+    {
+        $task = Task::create([
+            'task_name' => 'Prepare report',
+            'description' => 'Draft the project summary',
+            'status' => 'Pending',
+            'due_date' => '2026-10-09',
+        ]);
+
+        $response = $this->get("/tasks/{$task->id}");
+
+        $response->assertOk();
+        $response->assertSeeText('Prepare report');
+        $response->assertSeeText('Draft the project summary');
+    }
+
     public function test_user_can_edit_a_task(): void
     {
         $task = Task::create([
